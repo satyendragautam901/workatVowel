@@ -1,0 +1,84 @@
+/* Basic reset and full-height for body */
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+/* Container holding the left and right sections */
+.container {
+  display: flex;
+  height: 100%;
+}
+
+/* Left section with fixed image */
+.left-section {
+  width: 33.33%; /* or use a specific pixel value if preferred */
+  position: relative;
+  /* border: .1rem solid grey; */
+  height: 600px;
+  padding: 20px;
+}
+
+.left-section img {
+  position: absolute;
+  width: 98%;
+  height: 300px;
+  object-fit: contain;
+}
+
+.right-section {
+  width: 66.67%;
+  overflow-y: auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.left- {
+  transform: translateY(300px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Media Query for mobile devices */
+@media (max-width: 768px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    
+  }
+  .left-section {
+    position: fixed;
+    width: 100%;
+
+  }
+  .right-section {
+    width: 100%;
+    transform: translateY(450px);
+    height: 50vh;
+  }
+  .productDetails {
+    display: none;
+  }
+  .mainHeading {
+    text-align:left
+  }
+
+  .button {
+    position: fixed;
+    z-index: 9999;
+    transform: translateY(100px);
+
+   
+  }
+  .PrImage img {
+    height: 40vh; /* Adjust as needed */
+  }
+
+  .productDetails {
+    padding: 8px; /* Less padding for smaller screens */
+  }
+}
