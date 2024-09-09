@@ -26,4 +26,42 @@ document.addEventListener('DOMContentLoaded', function() {
             warrantyBtn.textContent = 'Know More';
         }
     });
+
+    // Thumbnail functionality
+    const thumbnails = document.querySelectorAll('.thumbnail');
+    const mainImage = document.getElementById('mainImage');
+    const thumbnailContainer = document.querySelector('.thumbnail-container');
+
+    // Function to update main image based on thumbnail click
+    function updateMainImage(src) {
+        mainImage.setAttribute('src', src);
+    }
+
+    // Event listener for thumbnail click
+    thumbnails.forEach(thumbnail => {
+        thumbnail.addEventListener('click', function() {
+            const newSrc = this.getAttribute('data-image');
+            updateMainImage(newSrc);
+        });
+    });
+
+    // Update the main image based on the visible thumbnail
+    thumbnailContainer.addEventListener('scroll', function() {
+        const thumbnailsArray = Array.from(thumbnails);
+        let visibleThumbnail;
+
+        thumbnailsArray.some(thumbnail => {
+            const rect = thumbnail.getBoundingClientRect();
+            const containerRect = thumbnailContainer.getBoundingClientRect();
+            if (rect.left >= containerRect.left && rect.right <= containerRect.right) {
+                visibleThumbnail = thumbnail;
+                return true;
+            }
+            return false;
+        });
+
+        if (visibleThumbnail) {
+            updateMainImage(visibleThumbnail.getAttribute('data-image'));
+        }
+    });
 });
