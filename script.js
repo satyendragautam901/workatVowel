@@ -27,41 +27,32 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Thumbnail functionality
-    const thumbnails = document.querySelectorAll('.thumbnail');
-    const mainImage = document.getElementById('mainImage');
-    const thumbnailContainer = document.querySelector('.thumbnail-container');
-
-    // Function to update main image based on thumbnail click
-    function updateMainImage(src) {
-        mainImage.setAttribute('src', src);
-    }
-
-    // Event listener for thumbnail click
-    thumbnails.forEach(thumbnail => {
-        thumbnail.addEventListener('click', function() {
-            const newSrc = this.getAttribute('data-image');
-            updateMainImage(newSrc);
-        });
-    });
+    
 
     // Update the main image based on the visible thumbnail
-    thumbnailContainer.addEventListener('scroll', function() {
-        const thumbnailsArray = Array.from(thumbnails);
-        let visibleThumbnail;
+    const mainImage = document.getElementById('mainImage');
+    const thumbnails = Array.from(document.querySelectorAll('.thumbnail'));
+    let currentIndex = thumbnails.findIndex(thumb => thumb.dataset.image === mainImage.src.split('/').pop());
 
-        thumbnailsArray.some(thumbnail => {
-            const rect = thumbnail.getBoundingClientRect();
-            const containerRect = thumbnailContainer.getBoundingClientRect();
-            if (rect.left >= containerRect.left && rect.right <= containerRect.right) {
-                visibleThumbnail = thumbnail;
-                return true;
-            }
-            return false;
-        });
-
-        if (visibleThumbnail) {
-            updateMainImage(visibleThumbnail.getAttribute('data-image'));
+    const updateMainImage = (index) => {
+        if (index >= 0 && index < thumbnails.length) {
+            mainImage.src = thumbnails[index].dataset.image;
+            currentIndex = index;
         }
+    };
+
+    document.querySelector('.left-arrow').addEventListener('click', () => {
+        const newIndex = (currentIndex - 1 + thumbnails.length) % thumbnails.length;
+        updateMainImage(newIndex);
+    });
+
+    document.querySelector('.right-arrow').addEventListener('click', () => {
+        const newIndex = (currentIndex + 1) % thumbnails.length;
+        updateMainImage(newIndex);
+    });
+
+    // Optionally, allow clicking on thumbnails to set the main image
+    thumbnails.forEach((thumbnail, index) => {
+        thumbnail.addEventListener('click', () => updateMainImage(index));
     });
 });
